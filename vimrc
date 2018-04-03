@@ -117,6 +117,12 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 nnoremap <leader>tr :NERDTreeToggle<cr>		 " use <leader>nt call nerdtree
 " YouCompleteMe-|,d|C-o|C-i|
 let g:ycm_autoclose_preview_window_after_completion=1
+let g:ycm_python_binary_path = '/home/zhiyuan/.conda/envs/pytorchSource/bin/python'
+let g:ycm_max_num_candidates=10
+let g:ycm_max_num_identifier_candidates=5
+let g:ycm_auto_trigger=0
+nnoremap <leader>y :let g:ycm_auto_trigger=0<CR>
+nnoremap <leader>Y :let g:ycm_auto_trigger=1<CR>
 
 nnoremap <leader>de :YcmCompleter GoToDefinitionElseDeclaration<CR>
 						         "go to definition or declaration
