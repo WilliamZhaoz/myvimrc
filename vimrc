@@ -94,10 +94,10 @@ Plugin 'kien/ctrlp.vim'			 " ctrlp-too complex,hah,study later
 Plugin 'Lokaltog/vim-powerline'  " powerline to show many things
 Plugin 'Raimondi/delimitMate'    " automatic closing of quotes, parenthesis, brackets, etc  
 Plugin 'Yggdroot/indentLine'     " show indent space 
-Plugin 'kien/rainbow_parentheses.vim'" rainbow parentheses
+Plugin 'kien/rainbow_parentheses.vim' " rainbow parentheses
 Plugin 'klen/python-mode'        " report all python character-<leader>r to run <leader>b to breakpoint 
-Plugin 'easymotion/vim-easymotion'" use <leader><leader>motion(wbjklhs)to jump 
-"Plugin 'scrooloose/nerdcommenter'" quick comment
+Plugin 'easymotion/vim-easymotion' " use <leader><leader>motion(wbjklhs)to jump 
+"Plugin 'scrooloose/nerdcommenter' " quick comment
 
 filetype on
 """""""""""""""""""""""""""""""""""""
@@ -117,6 +117,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 nnoremap <leader>tr :NERDTreeToggle<cr>		 " use <leader>nt call nerdtree
 " YouCompleteMe-|,d|C-o|C-i|
 let g:ycm_autoclose_preview_window_after_completion=1
+
 nnoremap <leader>de :YcmCompleter GoToDefinitionElseDeclaration<CR>
 						         "go to definition or declaration
 " ctrlp
@@ -199,3 +200,6 @@ au Syntax * RainbowParenthesesLoadBraces
 
 "python mode
 let g:pymode_rope=0               " turn off the rope
+let g:pymode_warnings=0
+let g:pymode_options_max_line_length=129
+let g:pymode_options_colorcolumn=0
