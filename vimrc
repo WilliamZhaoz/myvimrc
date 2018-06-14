@@ -61,6 +61,7 @@ set linebreak					 " show whole word when linebreak
 set whichwrap=b,s,<,>,[,]		 " cursor can change line when reach the end
 set mouse=a					     " enable mouse usage
 set number					     " show line number
+set relativenumber				 " show relative number
 set numberwidth=4                " number width
 
 nnoremap <leader>w :w<CR>
