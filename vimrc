@@ -50,6 +50,7 @@ set fileencodings=utf-8,gb18030,gbk,big5 " file encodings
 set encoding=utf-8               " encoding
 set autoindent					 " auto indent
 set smartindent
+set foldlevelstart=99            " close auto fold
 set tabstop=4					 " tab stop width
 set softtabstop=4				 " softtabstop width
 set shiftwidth =4			 	 " auto indent width
