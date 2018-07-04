@@ -4,7 +4,8 @@
 
 """"""""""""""""""""""""""""""""""""""
 """"""""""""""""READ.ME"""""""""""""""
-""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""" 
+" 0.pip install yapf(for auto format) 
 " 1.git clone https://github.com/gmarik/vundle/git ~/.vim/bundle/vundle
 " 3.cp vimrc ~/.vimrc
 " 4.run ":BundleInstall" in vim
@@ -23,14 +24,9 @@ filetype plugin indent on 		 " filetype can use
 set nocompatible				 " out of vi compatible mode
 "set shell=git
 set shell=/bin/bash
-colorscheme desert	             " /usr/share/vim/vim73/colors
-au WinLeave * set nocursorline nocursorcolumn    " Highlight current line
-au WinEnter * set cursorline cursorcolumn
-set cursorline 
-highlight CursorLine     cterm=NONE ctermbg=grey ctermfg=black guibg=NONE guifg=NONE
-"set cursorcolumn
-highlight CursorColumn   cterm=NONE ctermbg=grey ctermfg=black guibg=NONE guifg=NONE
+
 let g:mapleader="," 			 " leader key
+set t_Co=256                     " 256 color
 set backspace=2     	         " use backspace delete
 set nobackup					 " No autogenerate backup file
 set nowritebackup
@@ -62,8 +58,19 @@ set linebreak					 " show whole word when linebreak
 set whichwrap=b,s,<,>,[,]		 " cursor can change line when reach the end
 set mouse=a					     " enable mouse usage
 set number					     " show line number
-set relativenumber				 " show relative number
+" set relativenumber				 " show relative number
 set numberwidth=4                " number width
+
+colorscheme desert	             " /usr/share/vim/vim73/colors
+au WinLeave * set nocursorline nocursorcolumn    " Highlight current line
+au WinEnter * set cursorline cursorcolumn
+set cursorline 
+highlight CursorLine     cterm=NONE ctermbg=grey ctermfg=black guibg=NONE guifg=NONE
+set cursorcolumn
+highlight CursorColumn   cterm=NONE ctermbg=grey ctermfg=black guibg=NONE guifg=NONE
+highlight PMenu ctermfg=0 ctermbg=250 guifg=black guibg=darkgrey
+highlight PMenuSel ctermfg=250 ctermbg=8 guifg=darkgrey guibg=black
+                                 " set highlight menu color
 
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>			  
@@ -97,13 +104,15 @@ Plugin 'Lokaltog/vim-powerline'  " powerline to show many things
 Plugin 'Raimondi/delimitMate'    " automatic closing of quotes, parenthesis, brackets, etc  
 Plugin 'Yggdroot/indentLine'     " show indent space 
 Plugin 'kien/rainbow_parentheses.vim' " rainbow parentheses
+Plugin 'Chiel92/vim-autoformat'  " auto format
 Plugin 'klen/python-mode'        " report all python character-<leader>r to run <leader>b to breakpoint 
 Plugin 'easymotion/vim-easymotion' " use <leader><leader>motion(wbjklhs)to jump 
-"Plugin 'scrooloose/nerdcommenter' " quick comment
 
 filetype on
 """""""""""""""""""""""""""""""""""""
 """""""""""BUNDLE_CONFIG"""""""""""""
+"""""""""""""""""""""""""""""""""""""
+
 """""""""""""""""""""""""""""""""""""
 " nerdTree-|,nt|hjkl|ctrl+hjkl|o|x|i|s|t|P|p|K|J|?|
 let NERDChristmasTree=0
@@ -117,17 +126,48 @@ autocmd vimenter * if !argc() | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif 
 						         " Close vim if the only window left open is a NERDTree
 nnoremap <leader>tr :NERDTreeToggle<cr>		 " use <leader>nt call nerdtree
+"""""""""""""""""""""""""""""""""""""
 " YouCompleteMe-|,d|C-o|C-i|
+"""""""""""""""""""""""""""""""""""""
 let g:ycm_autoclose_preview_window_after_completion=1
+let g:ycm_collect_identifiers_from_comments_and_strings=1
+let g:ycm_complele_in_strings=1
+let g:ycm_seed_identifiers_with_symtax=1
+set completeopt=menu,menuone
 let g:ycm_python_binary_path = '/home/zhiyuan/.conda/envs/pytorchSource/bin/python'
+let g:ycm_min_num_of_chars_for_completion=1
 let g:ycm_max_num_candidates=10
 let g:ycm_max_num_identifier_candidates=5
-let g:ycm_auto_trigger=0
+let g:ycm_show_diagnostics_ui=0  " close the auto analysis
+let g:ycm_add_previed_to_completeopt = 0
+                                 " do not show the previed to completeopt
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+                                 " support python
+let g:ycm_auto_trigger=1
+let g:ycm_filetype_whitelist={
+                        \ "c":1,
+                        \ "cpp":1,
+                        \ "objc":1,
+                        \ "python":1,
+                        \ "sh":1,
+                        \ "zsh":1,
+                        \ "php":1,
+                        \ "java":1,
+                        \ "cs":1,
+                        \ }
 nnoremap <leader>y :let g:ycm_auto_trigger=0<CR>
 nnoremap <leader>Y :let g:ycm_auto_trigger=1<CR>
-
 nnoremap <leader>de :YcmCompleter GoToDefinitionElseDeclaration<CR>
 						         "go to definition or declaration
+                                 "
+" autoformat
+au BufWrite *.py :Autoformat            " autoformat when bufwrite *.py
+let g:formatter_yapf_style = 'pep8'     " or google, facebook, chromium
+let g:formatdef_allman = '"astyle --style=allman --pad-oper"'
+let g:formatters_cpp = ['allman']
+let g:formatters_c = ['allman']
+
+"""""""""""""""""""""""""""""""""""""
 " ctrlp
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip         " MacOSX/Linux"
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
@@ -135,6 +175,7 @@ set laststatus=2 				 " Always display the status line
 
 " delimitMate
 
+"""""""""""""""""""""""""""""""""""""
 " indentLine
 let g:indentLine_color_term=239  " mark color
 let g:indentLine_char='┆'          " use  ¦ or ┆  to mark indent space   
@@ -142,6 +183,7 @@ let g:indentLine_concealcursor='inc'
 let g:indentLine_conceallevel =2 
 "let g:indentLine_enable=0
 
+"""""""""""""""""""""""""""""""""""""
 " rainbow parentheses
 let g:rbpt_colorpairs = [
     \ ['brown',       'RoyalBlue3'],
@@ -168,46 +210,26 @@ au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 "nnoremap <leader>rp :RainbowParenthesesToggle 
 
-"" nerd commenter
-"let g:NERDSpaceDelims = 1        " Add spaces after comment delimiters by default
-"let g:NERDCompactSexyComs = 1    " Use compact syntax for prettified multi-line comments
-"let g:NERDDefaultAlign = 'left'  " Align line-wise comment delimiters flush left instead of following code indentation
-"let g:NERDAltDelims_python = 1     " Set a language to use its alternate delimiters by default
-"let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } } 
-"                                 " Add your own custom formats or override the defaults
-"let g:NERDCommentEmptyLines = 1  " Allow commenting and inverting empty lines (useful when commenting aregion)
-""
-"let g:NERDTrimTrailingWhitespace = 1 
-"                                 " Enable trimming of trailing whitespace when uncommenting
-"
-"nnoremap <leader>cc :NERDComComment
-"                                 " Comment out the current line or text selected in visual mode.
-"nnoremap <leader>cn :NERDComNestedComment
-"                                 " Same as cc but forces nesting.
-"nnoremap <leader>c<space> :NERDComToggleComment
-"                                 " Toggles the comment state of the selected line(s). 
-"                                 " If the topmost selected line is commented, all selected lines are uncommented and vice versa.
-"nnoremap <leader>cm :NERDComMinimalComment
-"                                 " Comments the given lines using only one set of multipart delimiters.
-"nnoremap <leader>ci :NERDComInvertComment
-"                                 " Toggles the comment state of the selected line(s) individually.
-"nnoremap <leader>cs :NERDComSexyComment
-"                                 " Comments out the selected lines with a pretty block formatted layout.
-"nnoremap <leader>cy :NERDComYankComment
-"                                 " Same as cc except that the commented line(s) are yanked first.
-"nnoremap <leader>c$ :NERDComEOLComment
-"                                 " Comments the current line from the cursor to the end of line.
-"nnoremap <leader>cA :NERDComAppendComment
-"                                 " Adds comment delimiters to the end of line and goes into insert mode between them.
-"nnoremap <leader>ca :NERDComAltDelim
-"                                 " Switches to the alternative set of delimiters.
-"nnoremap <leader>cb :NERDComAlignedComment
-"                                 " Same as |NERDComComment| except that the delimiters are aligned down the left side or both sides 
-"nnoremap <leader>cu :NERDComUncommentLine
-"                                 " Uncomments the selected line(s).
 
+"""""""""""""""""""""""""""""""""""""
 "python mode
 let g:pymode_rope=0               " turn off the rope
 let g:pymode_warnings=0
 let g:pymode_options_max_line_length=129
 let g:pymode_options_colorcolumn=0
+let g:pymode_lint_cwindow = 0
+
+
+"""""""""""""""""""""""""""""""""""""
+" auto add head info for .py file
+function HeaderPython()
+    call append(1, "")
+    call append(1, "")
+    call setline(1, "# -*- coding: utf-8 -*-")
+    call append(1, "# ------------------------- #")
+    call append(1, "# Stay foolish, stay hungry.#")
+    call append(1, "#   Auther: William Zhao    #")
+    normal G
+    normal o
+endf
+autocmd bufnewfile *.py call HeaderPython()
